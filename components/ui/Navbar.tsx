@@ -7,8 +7,8 @@ export const Navbar = () => {
       <Toolbar>
         <IconButton size="large" edge="start">
           <MenuOutlinedIcon />
-          <Typography variant="h6">OpenJira</Typography>
         </IconButton>
+        <Typography variant="h6">OpenJira</Typography>
       </Toolbar>
     </AppBar>
   );
