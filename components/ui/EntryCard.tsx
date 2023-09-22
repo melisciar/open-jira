@@ -1,4 +1,5 @@
 import { Entry } from "@/interfaces";
+import { useContext } from "react";
 import {
   Card,
   CardActionArea,
@@ -6,24 +7,23 @@ import {
   CardContent,
   Typography,
 } from "@mui/material";
+import { UIContext } from "@/context/ui";
 
 interface Props {
   entry: Entry;
 }
 export const EntryCard: React.FC<Props> = ({ entry }) => {
+  const { toggleDragging } = useContext(UIContext);
   const onDragStart = (event: React.DragEvent) => {
     event.dataTransfer.setData("text", entry._id);
-    // todo: modificar el estado para indicar que estoy haciendo drag
-  };
-  const onDragEnd = () => {
-    // todo: cancelar on drag
+    toggleDragging();
   };
   return (
     <Card
       sx={{ marginBottom: 1 }}
       draggable
       onDragStart={onDragStart}
-      onDragEnd={onDragEnd}
+      onDragEnd={toggleDragging}
     >
       <CardActionArea>
         <CardContent>

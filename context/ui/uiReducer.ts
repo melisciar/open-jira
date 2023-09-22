@@ -4,6 +4,7 @@ type UIActionType =
 | {type: 'UI - Open Sidebar'}
 | {type: 'UI - Close Sidebar'}
 | {type: 'UI - Set isAddingEntry', payload: boolean}
+| {type: 'UI - Toggle Dragging'}
 
 //Recibe un estado o acción y produce un nuevo estado
 export const uiReducer = ( state: UIState, action: UIActionType): UIState => {
@@ -24,6 +25,11 @@ export const uiReducer = ( state: UIState, action: UIActionType): UIState => {
             return {
                 ...state,
                 isAddingEntry: action.payload
+            }
+        case "UI - Toggle Dragging":
+            return {
+                ...state,
+                isDragging: !state.isDragging
             }
     
         default:

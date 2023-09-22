@@ -1,8 +1,11 @@
 import { useContext, useMemo } from "react";
 import { List, Paper } from "@mui/material";
+import { EntriesContext } from "@/context/entries";
+import { UIContext } from "@/context/ui";
 import { EntryCard } from ".";
 import { EntryStatus } from "@/interfaces";
-import { EntriesContext } from "@/context/entries";
+
+import styles from "./EntryList.module.css";
 
 interface Props {
   status: EntryStatus;
@@ -10,6 +13,8 @@ interface Props {
 
 export const EntryList: React.FC<Props> = ({ status }) => {
   const { entries } = useContext(EntriesContext);
+  const { isDragging } = useContext(UIContext);
+
   const entriesByStatus = useMemo(
     () => entries.filter((entry) => entry.status === status),
     [entries, status]
@@ -25,7 +30,11 @@ export const EntryList: React.FC<Props> = ({ status }) => {
 
   return (
     // TODO: aquí haremos drop
-    <div onDrop={onDropEntry} onDragOver={allowDrop}>
+    <div
+      onDrop={onDropEntry}
+      onDragOver={allowDrop}
+      className={isDragging ? styles.dragging : ""}
+    >
       <Paper
         sx={{
           height: "calc(100vh - 250px)",
@@ -35,8 +44,7 @@ export const EntryList: React.FC<Props> = ({ status }) => {
           padding: "1px 5px",
         }}
       >
-        {/** // TODO: cambiará dependiendo de si hago o no drag and drop */}
-        <List sx={{ opacity: 1 }}>
+        <List sx={{ opacity: isDragging ? 0.2 : 1, transition: "all .3s" }}>
           {entriesByStatus.map((entry) => (
             <EntryCard key={entry._id} entry={entry} />
           ))}
