@@ -12,8 +12,8 @@ interface Props {
 }
 
 export const EntryList: React.FC<Props> = ({ status }) => {
-  const { entries } = useContext(EntriesContext);
-  const { isDragging } = useContext(UIContext);
+  const { entries, updateEntry } = useContext(EntriesContext);
+  const { isDragging, toggleDragging } = useContext(UIContext);
 
   const entriesByStatus = useMemo(
     () => entries.filter((entry) => entry.status === status),
@@ -26,10 +26,14 @@ export const EntryList: React.FC<Props> = ({ status }) => {
 
   const onDropEntry = (event: React.DragEvent<HTMLDivElement>) => {
     const id = event.dataTransfer.getData("text");
+
+    const entry = entries.find((entry) => entry._id === id)!;
+    entry.status = status;
+    updateEntry(entry);
+    toggleDragging();
   };
 
   return (
-    // TODO: aquí haremos drop
     <div
       onDrop={onDropEntry}
       onDragOver={allowDrop}
