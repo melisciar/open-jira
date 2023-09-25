@@ -3,7 +3,7 @@
 Para correr localmente, se necesita la base de datos
 
 ```
-docker-compose up -d
+    docker-compose up -d
 ```
 
 - El -d significa **detached**
@@ -11,9 +11,17 @@ docker-compose up -d
 * MongoDB URL Local:
 
 ```
-mongodb://localhost:27017/entriesdb
+    mongodb://localhost:27017/entriesdb
 ```
 
 ## Configurar las variables de entorno
 
 Renombrar el archivo **.env.template** a **.env**
+
+## Llenar la base de datos con información de pruebas
+
+Llamar a
+
+```
+    http://localhost:3000/api/seed
+```
