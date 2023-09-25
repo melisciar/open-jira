@@ -16,15 +16,9 @@ const Entries_INITIAL_STATE: EntriesState = {
 export const EntriesProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [state, dispatch] = useReducer(entriesReducer, Entries_INITIAL_STATE);
 
-  const addNewEntry = (description: string) => {
-    const newEntry: Entry = {
-      _id: uuidv4(),
-      description,
-      createdAt: Date.now(),
-      status: "pending",
-    };
-
-    dispatch({ type: "Agregar entrada", payload: newEntry });
+  const addNewEntry = async (description: string) => {
+    const { data } = await entriesApi.post<Entry>("/entries", { description });
+    dispatch({ type: "Agregar entrada", payload: data });
   };
 
   const updateEntry = (entry: Entry) => {
