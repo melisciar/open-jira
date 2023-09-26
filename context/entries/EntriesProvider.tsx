@@ -21,8 +21,16 @@ export const EntriesProvider: React.FC<PropsWithChildren> = ({ children }) => {
     dispatch({ type: "Agregar entrada", payload: data });
   };
 
-  const updateEntry = (entry: Entry) => {
-    dispatch({ type: "Actualizar entrada", payload: entry });
+  const updateEntry = async ({ _id, description, status }: Entry) => {
+    try {
+      const { data } = await entriesApi.put<Entry>(`/entries/${_id}`, {
+        description,
+        status,
+      });
+      dispatch({ type: "Actualizar entrada", payload: data });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const refreshEntries = async () => {
